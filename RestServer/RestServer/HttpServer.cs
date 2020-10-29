@@ -68,6 +68,8 @@ namespace RestServer
             //Console.WriteLine(req.body_data.Count + " " + req.queries.Count);
 
             RequestContext.checkContext(req.url, req.httpverb, req.queries, req.body_data);
+            Response res = new Response(req, RequestContext.getOutput());
+            res.sendResponse(client.GetStream());
 
         }
     }

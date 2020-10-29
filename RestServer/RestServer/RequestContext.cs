@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace RestServer
 {
@@ -8,6 +9,7 @@ namespace RestServer
     {
         static List<Message> messages = new List<Message>();
         static int id_count = 0;
+        private static string output = "";
 
         public static void checkContext(string url, string type, List<Query> queries, List<Query> body_data)
         {
@@ -28,12 +30,12 @@ namespace RestServer
             }
         }
 
-        private static string addMessage(string url, List<Query> body_data)
+        private static void addMessage(string url, List<Query> body_data)
         {
             Message msg = new Message(id_count, body_data[0].content);
             messages.Add(msg);
             incrID();
-            return "Message added";
+            output = "Message added";
         }
 
         private static string getID(string url)
@@ -46,6 +48,11 @@ namespace RestServer
         private static void incrID()
         {
             id_count++;
+        }
+
+        public static string getOutput()
+        {
+            return output;
         }
     }
 }
