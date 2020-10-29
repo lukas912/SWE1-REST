@@ -65,7 +65,9 @@ namespace RestServer
 
             Debug.Write(data);
             Request req = Request.GetRequest(data);
-            Console.WriteLine(req.body_data.Count + " " + req.queries.Count);
+            //Console.WriteLine(req.body_data.Count + " " + req.queries.Count);
+
+            RequestContext.checkContext(req.url, req.httpverb, req.queries, req.body_data);
 
         }
     }
