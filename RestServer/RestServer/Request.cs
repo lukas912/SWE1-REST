@@ -10,13 +10,15 @@ namespace RestServer
         public string url { get; set; }
         public string host { get; set; }
         public List<Query> queries;
+        public List<Query> body_data;
 
-        public Request(string httpverb, string url, string host, List<Query> q)
+        public Request(string httpverb, string url, string host, List<Query> q, List<Query> bd)
         {
             this.httpverb = httpverb;
             this.url = url;
             this.host = host;
             this.queries = q;
+            this.body_data = bd;
         }
 
         public static Request GetRequest(string req)
@@ -31,11 +33,40 @@ namespace RestServer
             string url = tokens[1];
             string host = tokens[4];
             List<Query> queries = getQueries(url);
+            List<Query> body_data = getBodyData(tokens);
 
 
             Console.WriteLine("Request from {0}: {1} {2}", host, httpverb, url);
 
-            return new Request(httpverb, url, host, queries);
+            return new Request(httpverb, url, host, queries, body_data);
+        }
+
+        private static List<Query> getBodyData(string[] tokens)
+        {
+            List<Query> output = new List<Query>();
+            int counter = 0;
+            int bd_id = 0;
+
+            foreach(string item in tokens)
+            {
+                if(item == "form-data;")
+                {
+                    bd_id = counter + 1;
+                }
+
+                if(counter == bd_id && item != "POST")
+                {
+                    Query q = new Query(item.Split("\"")[1], item.Split("\"")[2].Remove(item.Split("\"")[2].IndexOf("-")));
+
+                    output.Add(q);
+                }
+
+                counter++;
+            }
+
+
+
+            return output;
         }
 
         public static List<Query> getQueries(string url)

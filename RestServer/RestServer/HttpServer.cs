@@ -63,8 +63,9 @@ namespace RestServer
                 data += reader.ReadLine();
             }
 
-            //Console.Write(data);
-
+            Debug.Write(data);
+            Request req = Request.GetRequest(data);
+            Console.WriteLine(req.body_data.Count + " " + req.queries.Count);
 
         }
     }
