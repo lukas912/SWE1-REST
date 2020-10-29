@@ -20,11 +20,13 @@ namespace RestServer
         public const string dir_img = "/data/img";
         bool is_running = false;
         TcpListener listener;
+        RequestContext rc;
 
 
         public HttpServer(int port)
         {
             listener = new TcpListener(IPAddress.Any, port);
+            rc = new RequestContext();
         }
 
         public void startServer()
@@ -67,8 +69,9 @@ namespace RestServer
             Request req = Request.GetRequest(data);
             //Console.WriteLine(req.body_data.Count + " " + req.queries.Count);
 
-            RequestContext.checkContext(req.url, req.httpverb, req.queries, req.body_data);
-            Response res = new Response(req, RequestContext.getOutput());
+
+            rc.checkContext(req.url, req.httpverb, req.queries, req.body_data);
+            Response res = new Response(req, rc.getOutput());
             res.sendResponse(client.GetStream());
 
         }

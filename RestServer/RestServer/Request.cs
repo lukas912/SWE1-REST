@@ -54,11 +54,20 @@ namespace RestServer
                     bd_id = counter + 1;
                 }
 
-                if(counter == bd_id && item != "POST")
+                if(counter == bd_id)
                 {
-                    Query q = new Query(item.Split("\"")[1], item.Split("\"")[2].Remove(item.Split("\"")[2].IndexOf("-")));
+                    try
+                    {
+                        Query q = new Query(item.Split("\"")[1], item.Split("\"")[2].Remove(item.Split("\"")[2].IndexOf("-")));
 
-                    output.Add(q);
+                        output.Add(q);
+                    }
+
+                    catch
+                    {
+
+                    }
+
                 }
 
                 counter++;
