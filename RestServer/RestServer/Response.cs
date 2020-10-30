@@ -12,9 +12,9 @@ namespace RestServer
         private string status;
         private string mime;
         private Request req;
-        private string output;
+        private string[] output;
 
-        public Response(Request r, string output)
+        public Response(Request r, string[] output)
         {
             this.req = r;
             this.output = output;
@@ -26,8 +26,10 @@ namespace RestServer
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
             this.mime = "text/plain";
-            this.status = "200 OK";
-            this.data = enc.GetBytes(output);
+            this.status = output[1];
+
+
+            this.data = enc.GetBytes(output[0]);
         }
 
         public void sendResponse(NetworkStream stream)
