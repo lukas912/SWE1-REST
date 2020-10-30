@@ -9,7 +9,7 @@ namespace RestServer
     class Response
     {
         private byte[] data = null;
-        private string status;
+        public string status;
         private string mime;
         private Request req;
         private string[] output;

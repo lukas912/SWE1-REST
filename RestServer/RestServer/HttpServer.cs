@@ -13,11 +13,6 @@ namespace RestServer
     {
         public const string VERSION = "HTTP/1.1";
         public const string NAME = "MyRestServer v0.1";
-        public const string dir_err = "/data/err";
-        public const string dir_html = "/data/html";
-        public const string dir_json = "/data/json";
-        public const string dir_plaintext = "/data/text";
-        public const string dir_img = "/data/img";
         bool is_running = false;
         TcpListener listener;
         RequestContext rc;
@@ -45,7 +40,7 @@ namespace RestServer
             {
                 Console.WriteLine("Waiting for connection ...");
                 TcpClient client = listener.AcceptTcpClient();
-                Console.WriteLine("Client connected!");
+                //Console.WriteLine("Client connected!");
                 HandleClient(client);
                 client.Close();
             }
@@ -73,6 +68,7 @@ namespace RestServer
             rc.checkContext(req.url, req.httpverb, req.queries, req.body_data);
             Response res = new Response(req, rc.getOutput());
             res.sendResponse(client.GetStream());
+            Console.WriteLine("Request from {0}: {1} {2} {3}", req.host, req.httpverb, req.url, res.status);
 
         }
     }

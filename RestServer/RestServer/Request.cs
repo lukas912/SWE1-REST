@@ -36,7 +36,7 @@ namespace RestServer
             List<Query> body_data = getBodyData(tokens);
 
 
-            Console.WriteLine("Request from {0}: {1} {2}", host, httpverb, url);
+            //Console.WriteLine("Request from {0}: {1} {2}", host, httpverb, url);
 
             return new Request(httpverb, url, host, queries, body_data);
         }
