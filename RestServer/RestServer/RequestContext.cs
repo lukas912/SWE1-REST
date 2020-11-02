@@ -14,39 +14,39 @@ namespace RestServer
         //0 = Content
         //1 = Statuscode
 
-        public void checkContext(string url, string type, List<Query> queries, List<Query> body_data)
+        public void CheckContext(string url, string type, List<Attribute> queries, List<Attribute> body_data)
         {
             switch (type)
             {
                 case "GET":
-                    checkGET(url);
+                    CheckGET(url);
                     break;
                 case "POST":
-                    addMessage(url, body_data);
+                    AddMessage(url, body_data);
                     break;
                 case "PUT":
-                    editMessage(url, body_data);
+                    EditMessage(url, body_data);
                     break;
                 case "DELETE":
-                    deleteMessage(url);
+                    DeleteMessage(url);
                     break;
             }
         }
 
-        private void checkGET(string url)
+        private void CheckGET(string url)
         {
             if (url == "/messages/")
             {
-                listAllMessages(url);
+                ListAllMessages(url);
             }
 
             if (url.StartsWith("/messages/") && url.Length >= 11)
             {
-                listMessage(url);
+                ListMessage(url);
             }
         }
 
-        private void listAllMessages(string url)
+        private void ListAllMessages(string url)
         {
             output[0] = "";
 
@@ -60,7 +60,7 @@ namespace RestServer
             {
                 foreach (Message msg in messages)
                 {
-                    output[0] += msg.message + "\n";
+                    output[0] += msg.Msg + "\n";
                 }
 
                 output[1] = "200 OK";
@@ -68,9 +68,9 @@ namespace RestServer
 
         }
 
-        private void listMessage(string url)
+        private void ListMessage(string url)
         {
-            int id = Convert.ToInt32(getID(url));
+            int id = Convert.ToInt32(GetID(url));
 
             if(messages.Exists(msg => msg.ID == id) == false)
             {
@@ -84,7 +84,7 @@ namespace RestServer
                 {
                     if (msg.ID == id)
                     {
-                        output[0] = msg.message;
+                        output[0] = msg.Msg;
                     }
 
                 }
@@ -94,9 +94,9 @@ namespace RestServer
 
         }
 
-        private void addMessage(string url, List<Query> body_data)
+        private void AddMessage(string url, List<Attribute> body_data)
         {
-            if(body_data[0].content == "" || body_data[0].content == null)
+            if(body_data[0].Content == "" || body_data[0].Content == null)
             {
                 output[0] = "Error: Message can't be empty";
                 output[1] = "400 Bad Request";
@@ -104,18 +104,18 @@ namespace RestServer
 
             else
             {
-                Message msg = new Message(id_count, body_data[0].content);
+                Message msg = new Message(id_count, body_data[0].Content);
                 messages.Add(msg);
-                incrID();
+                IncrID();
                 output[0] = "Message added";
                 output[1] = "200 OK";
             }
 
         }
 
-        private void editMessage(string url, List<Query> bd)
+        private void EditMessage(string url, List<Attribute> bd)
         {
-            int id = Convert.ToInt32(getID(url));
+            int id = Convert.ToInt32(GetID(url));
 
             if (messages.Exists(msg => msg.ID == id) == false)
             {
@@ -123,7 +123,7 @@ namespace RestServer
                 output[1] = "404 Not found";
             }
 
-            else if(bd[0].content == "" || (bd[0].content == null)) {
+            else if(bd[0].Content == "" || (bd[0].Content == null)) {
                 output[0] = "Error: Message can't be empty";
                 output[1] = "400 Bad Request";
             }
@@ -134,7 +134,7 @@ namespace RestServer
                 {
                     if (msg.ID == id)
                     {
-                        msg.message = bd[0].content;
+                        msg.Msg = bd[0].Content;
                         output[0] = "Message edited";
                     }
 
@@ -145,9 +145,9 @@ namespace RestServer
 
         }
 
-        private void deleteMessage(string url)
+        private void DeleteMessage(string url)
         {
-            int id = Convert.ToInt32(getID(url));
+            int id = Convert.ToInt32(GetID(url));
             Message rm = null;
 
             if (messages.Exists(msg => msg.ID == id) == false)
@@ -173,19 +173,18 @@ namespace RestServer
             }
         }
 
-        private string getID(string url)
+        private string GetID(string url)
         {
-            string output = "";
-            output = url.Split("/")[2];
+            string output = url.Split("/")[2];
             return output;
         }
 
-        private void incrID()
+        private void IncrID()
         {
             id_count++;
         }
 
-        public string[] getOutput()
+        public string[] GetOutput()
         {
             return output;
         }

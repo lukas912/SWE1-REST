@@ -8,7 +8,7 @@ namespace RestServer
         {
             Console.WriteLine("Starting Server ...");
             HttpServer server = new HttpServer(7000);
-            server.startServer();
+            server.StartServer();
         }
     }
 }

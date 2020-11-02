@@ -18,10 +18,10 @@ namespace RestServer
         {
             this.req = r;
             this.output = output;
-            performResponse();
+            PerformResponse();
         }
 
-        private void performResponse()
+        private void PerformResponse()
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
@@ -32,21 +32,17 @@ namespace RestServer
             this.data = enc.GetBytes(output[0]);
         }
 
-        public void sendResponse(NetworkStream stream)
+        public void SendResponse(NetworkStream stream)
         {
-            StringBuilder sbHeader = new StringBuilder();
+            StringBuilder header = new StringBuilder();
 
-            sbHeader.AppendLine(HttpServer.VERSION + " " + status);
-            sbHeader.AppendLine("Content-Type: " + mime);
-            // CONTENT-LENGTH
-            sbHeader.AppendLine("Content-Length: " + data.Length);
-
-            // Append one more line breaks to seperate header and content.
-            sbHeader.AppendLine();
+            header.AppendLine(HttpServer.VERSION + " " + status);
+            header.AppendLine("Content-Type: " + mime);
+            header.AppendLine("Content-Length: " + data.Length);
+            header.AppendLine();
 
             List<byte> response = new List<byte>();
-            // response.AddRange(bHeadersString);
-            response.AddRange(Encoding.ASCII.GetBytes(sbHeader.ToString()));
+            response.AddRange(Encoding.ASCII.GetBytes(header.ToString()));
             response.AddRange(data);
             byte[] responseByte = response.ToArray();
             stream.Write(responseByte, 0, responseByte.Length);

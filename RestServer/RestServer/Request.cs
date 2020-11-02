@@ -6,17 +6,17 @@ namespace RestServer
 {
     class Request
     {
-        public string httpverb { get; set; }
-        public string url { get; set; }
-        public string host { get; set; }
-        public List<Query> queries;
-        public List<Query> body_data;
+        public string Httpverb { get; set; }
+        public string Url { get; set; }
+        public string Host { get; set; }
+        public List<Attribute> queries;
+        public List<Attribute> body_data;
 
-        public Request(string httpverb, string url, string host, List<Query> q, List<Query> bd)
+        public Request(string httpverb, string url, string host, List<Attribute> q, List<Attribute> bd)
         {
-            this.httpverb = httpverb;
-            this.url = url;
-            this.host = host;
+            this.Httpverb = httpverb;
+            this.Url = url;
+            this.Host = host;
             this.queries = q;
             this.body_data = bd;
         }
@@ -32,8 +32,8 @@ namespace RestServer
             string httpverb = tokens[0];
             string url = tokens[1];
             string host = tokens[4];
-            List<Query> queries = getQueries(url);
-            List<Query> body_data = getBodyData(tokens);
+            List<Attribute> queries = GetQueries(url);
+            List<Attribute> body_data = GetBodyData(tokens);
 
 
             //Console.WriteLine("Request from {0}: {1} {2}", host, httpverb, url);
@@ -41,9 +41,9 @@ namespace RestServer
             return new Request(httpverb, url, host, queries, body_data);
         }
 
-        private static List<Query> getBodyData(string[] tokens)
+        private static List<Attribute> GetBodyData(string[] tokens)
         {
-            List<Query> output = new List<Query>();
+            List<Attribute> output = new List<Attribute>();
             int counter = 0;
             int bd_id = 0;
 
@@ -58,7 +58,7 @@ namespace RestServer
                 {
                     try
                     {
-                        Query q = new Query(item.Split("\"")[1], item.Split("\"")[2].Remove(item.Split("\"")[2].IndexOf("-")));
+                        Attribute q = new Attribute(item.Split("\"")[1], item.Split("\"")[2].Remove(item.Split("\"")[2].IndexOf("-")));
 
                         output.Add(q);
                     }
@@ -78,9 +78,9 @@ namespace RestServer
             return output;
         }
 
-        public static List<Query> getQueries(string url)
+        public static List<Attribute> GetQueries(string url)
         {
-            List<Query> output = new List<Query>();
+            List<Attribute> output = new List<Attribute>();
 
             if (url.Contains("?") == false)
             {
@@ -96,7 +96,7 @@ namespace RestServer
                 foreach (string item in b)
                 {
                     string[] c = item.Split("=");
-                    Query q = new Query(c[0], c[1]);
+                    Attribute q = new Attribute(c[0], c[1]);
                     output.Add(q);
                 }
 

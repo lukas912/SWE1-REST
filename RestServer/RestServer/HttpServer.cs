@@ -14,7 +14,7 @@ namespace RestServer
         public const string VERSION = "HTTP/1.1";
         public const string NAME = "MyRestServer v0.1";
         bool is_running = false;
-        TcpListener listener;
+        private TcpListener listener;
         RequestContext rc;
 
 
@@ -24,14 +24,14 @@ namespace RestServer
             rc = new RequestContext();
         }
 
-        public void startServer()
+        public void StartServer()
         {
-            Thread st = new Thread(new ThreadStart(runServer));
+            Thread st = new Thread(new ThreadStart(RunServer));
             st.Start();
             Console.WriteLine("Server started!");
         }
 
-        private void runServer()
+        private void RunServer()
         {
             is_running = true;
             listener.Start();
@@ -65,10 +65,10 @@ namespace RestServer
             //Console.WriteLine(req.body_data.Count + " " + req.queries.Count);
 
 
-            rc.checkContext(req.url, req.httpverb, req.queries, req.body_data);
-            Response res = new Response(req, rc.getOutput());
-            res.sendResponse(client.GetStream());
-            Console.WriteLine("Request from {0}: {1} {2} {3}", req.host, req.httpverb, req.url, res.status);
+            rc.CheckContext(req.Url, req.Httpverb, req.queries, req.body_data);
+            Response res = new Response(req, rc.GetOutput());
+            res.SendResponse(client.GetStream());
+            Console.WriteLine("Request from {0}: {1} {2} {3}", req.Host, req.Httpverb, req.Url, res.status);
 
         }
     }
