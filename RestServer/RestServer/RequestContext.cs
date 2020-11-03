@@ -30,6 +30,10 @@ namespace RestServer
                 case "DELETE":
                     DeleteMessage(url);
                     break;
+                default:
+                    output[0] = "Error: This method is not allowed";
+                    output[1] = "405 Method Not Allowed";
+                    break;
             }
         }
 
@@ -108,7 +112,7 @@ namespace RestServer
                 messages.Add(msg);
                 IncrID();
                 output[0] = "Message added";
-                output[1] = "200 OK";
+                output[1] = "201 Created";
             }
 
         }

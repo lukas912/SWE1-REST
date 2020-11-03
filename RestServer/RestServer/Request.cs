@@ -41,7 +41,7 @@ namespace RestServer
             return new Request(httpverb, url, host, queries, body_data);
         }
 
-        private static List<Attribute> GetBodyData(string[] tokens)
+        public static List<Attribute> GetBodyData(string[] tokens)
         {
             List<Attribute> output = new List<Attribute>();
             int counter = 0;

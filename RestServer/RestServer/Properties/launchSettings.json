@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "RestServer": {
+      "commandName": "Project"
+    }
+  }
+}
