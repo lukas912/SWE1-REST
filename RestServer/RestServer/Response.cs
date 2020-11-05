@@ -32,7 +32,7 @@ namespace RestServer
             this.data = enc.GetBytes(output[0]);
         }
 
-        public void SendResponse(NetworkStream stream)
+        public int SendResponse(NetworkStream stream)
         {
             StringBuilder header = new StringBuilder();
 
@@ -46,6 +46,7 @@ namespace RestServer
             response.AddRange(data);
             byte[] responseByte = response.ToArray();
             stream.Write(responseByte, 0, responseByte.Length);
+            return 1;
         }
     }
 }

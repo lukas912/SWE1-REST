@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading;
 using System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace RestServer
 {
@@ -31,7 +32,7 @@ namespace RestServer
             Console.WriteLine("Server started!");
         }
 
-        private void RunServer()
+        async private void RunServer()
         {
             is_running = true;
             listener.Start();
@@ -41,8 +42,12 @@ namespace RestServer
                 Console.WriteLine("Waiting for connection ...");
                 TcpClient client = listener.AcceptTcpClient();
                 //Console.WriteLine("Client connected!");
-                HandleClient(client);
-                client.Close();
+                Thread hc = new Thread(() => HandleClient(client));
+                hc.Start();
+                //Thread.Sleep(2000);
+                //HandleClient(client);
+                //client.Close();
+
             }
 
 
@@ -69,7 +74,7 @@ namespace RestServer
             Response res = new Response(req, rc.GetOutput());
             res.SendResponse(client.GetStream());
             Console.WriteLine("Request from {0}: {1} {2} {3}", req.Host, req.Httpverb, req.Url, res.status);
-
+            client.Close();
         }
     }
 }
