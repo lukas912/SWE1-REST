@@ -74,6 +74,7 @@ namespace RestServer
             Response res = new Response(req, rc.GetOutput());
             res.SendResponse(client.GetStream());
             Console.WriteLine("Request from {0}: {1} {2} {3}", req.Host, req.Httpverb, req.Url, res.status);
+            Debug.Write(data);
             client.Close();
         }
     }

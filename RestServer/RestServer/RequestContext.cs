@@ -108,11 +108,15 @@ namespace RestServer
 
             else
             {
-                Message msg = new Message(id_count, body_data[0].Content);
-                messages.Add(msg);
-                IncrID();
-                output[0] = "Message added";
-                output[1] = "201 Created";
+                foreach(Attribute item in body_data)
+                {
+                    Message msg = new Message(id_count, item.Content);
+                    messages.Add(msg);
+                    IncrID();
+                    output[0] = "Message added";
+                    output[1] = "201 Created";
+                }
+
             }
 
         }

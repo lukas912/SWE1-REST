@@ -33,7 +33,7 @@ namespace RestServer
             string url = tokens[1];
             string host = tokens[4];
             List<Attribute> queries = GetQueries(url);
-            List<Attribute> body_data = GetBodyData(tokens);
+            List<Attribute> body_data = GetBodyData(req.Split("form-data;"));
 
 
             //Console.WriteLine("Request from {0}: {1} {2}", host, httpverb, url);
@@ -44,37 +44,30 @@ namespace RestServer
         public static List<Attribute> GetBodyData(string[] tokens)
         {
             List<Attribute> output = new List<Attribute>();
+            bool bd_token = true;
             int counter = 0;
             int bd_id = 0;
+            int n = 0;
 
-            foreach(string item in tokens)
+            foreach (string item in tokens)
             {
-                if(item == "form-data;")
+                if (item.StartsWith(" name"))
                 {
-                    bd_id = counter + 1;
+                    Console.WriteLine(item);
+                    string a = item.Split("\"")[1];
+                    string b = item.Split("\"")[2].Remove(item.IndexOf("-")).Replace("-", "");
+                    Console.WriteLine("a: " + a);
+                    Console.WriteLine("b: " + b);
+
+                    Attribute ab = new Attribute(a, b);
+                    output.Add(ab);
                 }
 
-                if(counter == bd_id)
-                {
-                    try
-                    {
-                        Attribute q = new Attribute(item.Split("\"")[1], item.Split("\"")[2].Remove(item.Split("\"")[2].IndexOf("-")));
 
-                        output.Add(q);
-                    }
-
-                    catch
-                    {
-
-                    }
-
-                }
-
-                counter++;
             }
 
 
-
+            Console.WriteLine(output.Count);
             return output;
         }
 
