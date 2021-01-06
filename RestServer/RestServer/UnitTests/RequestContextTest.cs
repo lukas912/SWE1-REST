@@ -17,7 +17,7 @@ namespace RestServer.UnitTests
             List<Attribute> body_data = new List<Attribute>();
             try
             {
-                rq.CheckContext("localhost:7000/messages/", "GET", queries, body_data);
+                rq.CheckContext("localhost:7000/messages/", "GET", queries, body_data, "");
                 return; // indicates success
             }
             catch (Exception ex)
@@ -36,7 +36,7 @@ namespace RestServer.UnitTests
             List<Attribute> body_data = new List<Attribute>();
             try
             {
-                rq.CheckContext("localhost:7000/messages/", "GET", queries, body_data);
+                rq.CheckContext("localhost:7000/messages/", "GET", queries, body_data, "");
                 return; // indicates success
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace RestServer.UnitTests
 
             try
             {
-                rq.CheckContext("localhost:7000/messages/", "POST", queries, body_data);
+                rq.CheckContext("localhost:7000/messages/", "POST", queries, body_data, "");
                 return; // indicates success
             }
             catch (Exception ex)
@@ -80,11 +80,11 @@ namespace RestServer.UnitTests
 
             try
             {
-                rq.CheckContext("localhost:7000/messages/", "POST", queries, body_data);
+                rq.CheckContext("localhost:7000/messages/", "POST", queries, body_data, "");
                 Attribute b = new Attribute("msg", "hallo");
                 List<Attribute> body_data2 = new List<Attribute>();
                 body_data.Add(b);
-                rq.CheckContext("localhost:7000/messages/1", "PUT", queries, body_data2);
+                rq.CheckContext("localhost:7000/messages/1", "PUT", queries, body_data2, "");
                 return; // indicates success
             }
             catch (Exception ex)
@@ -103,11 +103,11 @@ namespace RestServer.UnitTests
             List<Attribute> body_data = new List<Attribute>();
             Attribute a = new Attribute("msg", "hallo");
             body_data.Add(a);
-            rq.CheckContext("localhost:7000/messages/", "POST", queries, body_data);
+            rq.CheckContext("localhost:7000/messages/", "POST", queries, body_data, "");
 
             try
             {
-                rq.CheckContext("localhost:7000/messages/0", "DELETE", queries, body_data);
+                rq.CheckContext("localhost:7000/messages/0", "DELETE", queries, body_data, "");
                 return; // indicates success
             }
             catch (Exception ex)

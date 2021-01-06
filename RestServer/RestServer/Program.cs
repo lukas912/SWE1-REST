@@ -7,7 +7,7 @@ namespace RestServer
         static void Main(string[] args)
         {
             Console.WriteLine("Starting Server ...");
-            HttpServer server = new HttpServer(7000);
+            HttpServer server = new HttpServer(10001);
             server.StartServer();
         }
     }

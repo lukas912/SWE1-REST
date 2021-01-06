@@ -27,12 +27,13 @@ namespace RestServer
 
         public void StartServer()
         {
-            Thread st = new Thread(new ThreadStart(RunServer));
-            st.Start();
+            //Thread st = new Thread(new ThreadStart(RunServer));
+            //st.Start();
+            RunServer();
             Console.WriteLine("Server started!");
         }
 
-        async private void RunServer()
+         private void RunServer()
         {
             is_running = true;
             listener.Start();
@@ -44,7 +45,7 @@ namespace RestServer
                 //Console.WriteLine("Client connected!");
                 Thread hc = new Thread(() => HandleClient(client));
                 hc.Start();
-                //Thread.Sleep(2000);
+                //Thread.Sleep(5000);
                 //HandleClient(client);
                 //client.Close();
 
@@ -59,23 +60,38 @@ namespace RestServer
         {
             StreamReader reader = new StreamReader(client.GetStream());
             string data = "";
+            
 
-            while (reader.Peek() != -1)
+            do
             {
                 data += reader.ReadLine();
-            }
+            } while (reader.Peek() != -1);
 
             Debug.Write(data);
+            
             Request req = Request.GetRequest(data);
             //Console.WriteLine(req.body_data.Count + " " + req.queries.Count);
 
-
-            rc.CheckContext(req.Url, req.Httpverb, req.queries, req.body_data);
+            
+            rc.CheckContext(req.Url, req.Httpverb, req.queries, req.body_data, req.Header_data);
             Response res = new Response(req, rc.GetOutput());
             res.SendResponse(client.GetStream());
+            if(res.status.StartsWith("2"))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+
             Console.WriteLine("Request from {0}: {1} {2} {3}", req.Host, req.Httpverb, req.Url, res.status);
+            Console.ResetColor();
             Debug.Write(data);
             client.Close();
+            
+            
         }
     }
 }
